@@ -7,7 +7,7 @@ let request;
  * @return {PaymentRequest} The payment request object.
  */
 function buildPaymentRequest() {
-    console.log("3. buildPaymentRequest()");
+    console.log("3. buildPaymentRequest() -> START ");
     if (!window.PaymentRequest) {
         return null;
     }
@@ -34,32 +34,35 @@ function buildPaymentRequest() {
     };
 
     try {
+        console.log("3. buildPaymentRequest() :: TRY");
         request = new PaymentRequest(supportedInstruments, details);
         if (typeof request.hasEnrolledInstrument === 'function') {
             request.hasEnrolledInstrument().then(function(result) {
                 if(result) {
-                    console.log("hasEnrolledInstrument() :: Show “pay by Phonepe” button in payment options");
+                    console.log("3. buildPaymentRequest() :: hasEnrolledInstrument() :: Show “pay by Phonepe” button in payment options with result", result);
                     //Show “pay by Phonepe” button in payment options
                 }
             }).catch(function(err) {
-                console.log("Error: hasEnrolledInstrument()");
+                console.log("3. buildPaymentRequest() :: CATCH: hasEnrolledInstrument() with error : ", err);
                 handleError(err);     //handle error
             });
         } else {
             request.canMakePayment().then(function(result) {
               if(result) {
-               console.log("canMakePayment() :: Show “pay by Phonepe” button in payment options");
+               console.log("3. buildPaymentRequest() :: canMakePayment() :: Show “pay by Phonepe” button in payment options with result", result);
                //Show “pay by Phonepe” button in payment options
               }
             }).catch(function(err) {
-              console.log("Error: hasEnrolledInstrument()");
+              console.log("3. buildPaymentRequest() :: CATCH: hasEnrolledInstrument() with error : ", err);
               handleError(err);
             });
         }
         
     } catch (e) {
+        console.log("3. buildPaymentRequest() :: CATCH: hasEnrolledInstrument() with error : ", e);
         handleError(e);
     }
+    console.log("3. buildPaymentRequest() -> END");
 }
   
 /**
