@@ -18,7 +18,7 @@ function buildPaymentRequest() {
         // For Prod: "https://mercury-t2.phonepe.com/transact/pay",
 
         data: {
-            url: "redirectUrl"        //redirect url from v4/debit response
+            url: "upi://pay?pa=REBELFOODSUAT@ybl&pn=rebelfoods&am=1.00&mam=1.00&tr=0f95d3ab-d2c3-4753-ac8b-1f3755dd8885&tn=Payment+for+0f95d3ab-d2c3-4753-ac8b-1f3755dd8885&mc=5311&mode=04&purpose=00&utm_campaign=DEBIT&utm_medium=REBELFOODSUAT&utm_source=0f95d3ab-d2c3-4753-ac8b-1f3755dd8885"        //redirect url from v4/debit response
         }
     }];
 
