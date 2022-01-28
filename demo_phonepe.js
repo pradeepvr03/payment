@@ -17,7 +17,7 @@ function buildPaymentRequest() {
         // For Prod: "https://mercury-t2.phonepe.com/transact/pay",
 
         data: {
-            url: redirectUrl        //redirect url from v4/debit response
+            url: "redirectUrl"        //redirect url from v4/debit response
         }
     }];
 
@@ -119,7 +119,7 @@ if (window.PaymentRequest) {
   payButton.setAttribute('style', 'display: inline;');
   payButton.addEventListener('click', function() {
     onPayByPhonePeClick();
-    // onCheckoutClick();
+    onCheckoutClick();
   });
 } else {
   ChromeSamples.setStatus('This browser does not support web payments');
