@@ -7,6 +7,7 @@ let request;
  * @return {PaymentRequest} The payment request object.
  */
 function buildPaymentRequest() {
+    console.log("3. buildPaymentRequest()");
     if (!window.PaymentRequest) {
         return null;
     }
@@ -37,20 +38,23 @@ function buildPaymentRequest() {
         if (typeof request.hasEnrolledInstrument === 'function') {
             request.hasEnrolledInstrument().then(function(result) {
                 if(result) {
-                    console.log("Show “pay by Phonepe” button in payment options");
+                    console.log("hasEnrolledInstrument() :: Show “pay by Phonepe” button in payment options");
                     //Show “pay by Phonepe” button in payment options
                 }
             }).catch(function(err) {
+                console.log("Error: hasEnrolledInstrument()");
                 handleError(err);     //handle error
             });
         } else {
             request.canMakePayment().then(function(result) {
-            if(result) {
-            //Show “pay by Phonepe” button in payment options
-            }
-        }).catch(function(err) {
-            handleError(err);
-        });
+              if(result) {
+               console.log("canMakePayment() :: Show “pay by Phonepe” button in payment options");
+               //Show “pay by Phonepe” button in payment options
+              }
+            }).catch(function(err) {
+              console.log("Error: hasEnrolledInstrument()");
+              handleError(err);
+            });
         }
         
     } catch (e) {
@@ -62,6 +66,7 @@ function buildPaymentRequest() {
  * Create payment request object for Phonepe payment.
  */
 function onCheckoutClick(){
+    console.log("2. onCheckoutClick()");
     buildPaymentRequest();
 }
 
@@ -70,6 +75,7 @@ function onCheckoutClick(){
  * Handles the response from PaymentRequest.show().
  */
 function handlePaymentResponse(response) {
+    console.log("4. handlePaymentResponse()");
     //Check if the response.details.result is success
     //get the transaction ref id from the response
     //use transaction refId and merchant Id to fetch the status
@@ -81,12 +87,15 @@ function handlePaymentResponse(response) {
         var serverPaymentRequest = new Request('secure/payment/endpoint');    //endpoint to fetch the status from server
         fetch(serverPaymentRequest, fetchOptions).then( fetchResponse => {
         if (fetchResponse.status < 400) {
+            console.log("4. handlePaymentResponse() :: success");
             response.complete("success");     //notifies the user agent that the user interaction is over, and causes any remaining user interface to be closed
         } else {
+            console.log("4. handlePaymentResponse() :: fail");
             response.complete("fail");        //notifies the user agent that the user interaction is over, and causes any remaining user interface to be closed
         };
         }).catch( reason => {
-        response.complete("fail");          //notifies the user agent that the user interaction is over, and causes any remaining user interface to be closed
+           console.log("CATCH: handlePaymentResponse() :: fail");
+           response.complete("fail");          //notifies the user agent that the user interaction is over, and causes any remaining user interface to be closed
         });      
 }
 
@@ -95,6 +104,7 @@ function handlePaymentResponse(response) {
  * Launch payment request for Phonepe payment.
  */
 function onPayByPhonePeClick() { 
+    console.log("2. onPayByPhonePeClick()");
     if (!window.PaymentRequest || !request) {
         return;
     }
@@ -115,12 +125,18 @@ function onPayByPhonePeClick() {
 const payButton = document.getElementById('buyButton');
 payButton.setAttribute('style', 'display: none;');
 if (window.PaymentRequest) {
+  console.log("Main 1. Before onCheckoutClick()");
   onCheckoutClick();
+  console.log("Main 2. After onCheckoutClick()");
   payButton.setAttribute('style', 'display: inline;');
   payButton.addEventListener('click', function() {
+    console.log("Main 3. Before onPayByPhonePeClick()");
     onPayByPhonePeClick();
+    console.log("Main 4. After onPayByPhonePeClick()");
     onCheckoutClick();
+    console.log("Main 5. After onCheckoutClick()");
   });
 } else {
+  console.log("Main 1. ERROR");
   ChromeSamples.setStatus('This browser does not support web payments');
 }
