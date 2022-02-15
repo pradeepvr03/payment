@@ -33,6 +33,7 @@ function buildPaymentRequest() {
         }
     };
 
+ 
     try {
         console.log("3. buildPaymentRequest() :: TRY");
         request = new PaymentRequest(supportedInstruments, details);
